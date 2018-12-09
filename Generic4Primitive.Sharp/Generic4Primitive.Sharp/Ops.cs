@@ -100,5 +100,7 @@
 
         public static T Increase<T>(ref T value) where T : struct => Ops<T>.Increase(ref value);
 
+        public static T IncreaseAndGetOriginal<T>(ref T value) where T : struct => Ops<T>.IncreaseAndGetOriginal(ref value);
+
     }
 }
