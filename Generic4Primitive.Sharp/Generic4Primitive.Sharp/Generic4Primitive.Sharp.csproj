@@ -34,9 +34,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpsFactory.cs" />
     <Compile Include="Ops.cs" />
     <Compile Include="Ops.Impl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Throw.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
