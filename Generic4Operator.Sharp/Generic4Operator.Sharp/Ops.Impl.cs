@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Generic4Primitive
+namespace Generic4Operator
 {
 
     internal class Ops<T>
@@ -8,13 +8,15 @@ namespace Generic4Primitive
 
         static Ops()
         {
-            Default = (Ops<T>) OpsFactory.CreateDefault(typeof(T));
+            Instance = (Ops<T>) OpsFactory.CreateDefault(typeof(T));
         }
 
-        public static Ops<T> Default { get; private set; }
+        public static Ops<T> Instance { get; private set; }
 
         public Ops()
         {
+            Positive = a => a;
+
             IncreaseAndGet = (ref T a) =>
             {
                 a = Increase(a);
@@ -38,18 +40,17 @@ namespace Generic4Primitive
                 a = Decrease(a);
                 return tmp;
             };
-
-            AddToInt = (a, b) => ToInt(Add(a, b));
-            SubtractToInt = (a, b) => ToInt(Subtract(a, b));
         }
+
+        public T Default => default(T);
+
+        public Func<T, T> Positive;
+
+        public Func<T, T> Negative = Throw.Value<T, T>;
 
         public Func<T, T, T> Add = Throw.Value<T, T, T>;
 
-        public Func<T, T, int> AddToInt;
-
         public Func<T, T, T> Subtract = Throw.Value<T, T, T>;
-
-        public Func<T, T, int> SubtractToInt;
 
         public Func<T, T> Increase = Throw.Value<T, T>;
 
@@ -62,6 +63,10 @@ namespace Generic4Primitive
         public ChangeDelegate<T> DecreaseAndGet;
 
         public ChangeDelegate<T> DecreaseAndGetOriginal;
+
+        public Func<T, T> Not;
+
+        public Func<T, bool> ToBool = Throw.Value<T, bool>;
 
         public Func<T, int> ToInt = Throw.Value<T, int>;
 

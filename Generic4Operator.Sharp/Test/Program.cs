@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Numerics;
-using System.Reflection;
-using Generic4Primitive;
+using Generic4Operator;
 
 namespace Test
 {
@@ -16,14 +14,14 @@ namespace Test
             this.value = value;
         }
 
-        public static MyInt operator +(MyInt a, MyInt b)
+        public static MyInt operator +(MyInt a)
         {
-            return new MyInt(a.value + b.value);
+            return new MyInt(a.value-1);
         }
 
-        private static MyInt op_Add(MyInt a, MyInt b)
+        public static bool operator !(MyInt a)
         {
-            return new MyInt(a.value + b.value);
+            return a.value > 0;
         }
 
         public override string ToString()
@@ -47,11 +45,7 @@ namespace Test
         {
             //Console.WriteLine(Ops.Add(new MyInt(1), new MyInt(2)));
             var a = new BigInteger(1);
-            Console.WriteLine(Ops.IncreaseAndGetOriginal(ref a));
-            var x = "123";
-            var y = "321";
-            Console.WriteLine(x + y);
-            Console.WriteLine(Ops.Add("123", "321"));
+            Console.WriteLine(Ops.Positive(new MyInt(1)));
         }
     }
 }

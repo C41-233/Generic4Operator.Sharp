@@ -43,9 +43,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Generic4Primitive.Sharp\Generic4Primitive.Sharp.csproj">
+    <ProjectReference Include="..\Generic4Operator.Sharp\Generic4Operator.Sharp.csproj">
       <Project>{082a0bf4-deb4-4e02-8c96-2d52c05f2bd0}</Project>
-      <Name>Generic4Primitive.Sharp</Name>
+      <Name>Generic4Operator.Sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

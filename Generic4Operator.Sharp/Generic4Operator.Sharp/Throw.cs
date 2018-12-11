@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Generic4Primitive
+namespace Generic4Operator
 {
 
     internal class Throw

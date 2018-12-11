@@ -7,8 +7,8 @@
     <ProjectGuid>{082A0BF4-DEB4-4E02-8C96-2D52C05F2BD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Generic4Primitive</RootNamespace>
-    <AssemblyName>Generic4Primitive.Sharp</AssemblyName>
+    <RootNamespace>Generic4Operator</RootNamespace>
+    <AssemblyName>Generic4Operator.Sharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Operator.cs" />
     <Compile Include="OpsFactory.cs" />
     <Compile Include="Ops.cs" />
     <Compile Include="Ops.Impl.cs" />
