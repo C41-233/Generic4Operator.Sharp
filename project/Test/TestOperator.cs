@@ -32,5 +32,30 @@ namespace Test
             });
         }
 
+        [TestMethod]
+        public void TestSubtract()
+        {
+            Assert.AreEqual('2' - '1', Ops.Subtract<char, char, int>('2', '1'));
+            Assert.AreEqual(2u - 1u, Ops.Subtract(2u, 1u));
+            Assert.AreEqual(1 - 2, Ops.Subtract(1, 2));
+            Assert.AreEqual(1f - 2f, Ops.Subtract(1f, 2f));
+            Assert.AreEqual(1d - 2d, Ops.Subtract(1d, 2d));
+            Assert.AreEqual(1 - (decimal)2, Ops.Subtract(1, (decimal)2));
+
+            Assert.ThrowsException<NotSupportedException>(() =>
+            {
+                Ops.Subtract("1", "2");
+            });
+
+            Assert.AreEqual(new BigInteger(-1), Ops.Subtract(new BigInteger(1), new BigInteger(2)));
+
+            Assert.AreEqual(new MyInt(-1), Ops.Subtract(new MyInt(1), new MyInt(2)));
+
+            Assert.ThrowsException<NotSupportedException>(() =>
+            {
+                Ops.Add(new List<int>(), new List<int>());
+            });
+        }
+
     }
 }

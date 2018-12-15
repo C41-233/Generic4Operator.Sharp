@@ -1,4 +1,5 @@
 ﻿using System;
+using Generic4Operator.Factory;
 
 namespace Generic4Operator.Operator
 {
@@ -42,7 +43,7 @@ namespace Generic4Operator.Operator
             OperatorFactory.TryBind(ref Invoke, (string a, string b) => a + b);
 
             Invoke = Invoke 
-                ?? OperatorFactory.CreateDelegate<Func<T1, T2, R>>(OperatorName.Addition) 
+                ?? OperatorFactory.CreateDelegate<Func<T1, T2, R>>("op_Addition") 
                 ?? Throw.Value<T1, T2, R>;
         }
 

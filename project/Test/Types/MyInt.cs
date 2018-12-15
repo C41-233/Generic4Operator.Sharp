@@ -48,6 +48,11 @@ namespace Test.Types
             return new MyInt(left.value + right.value);
         }
 
+        public static MyInt operator -(MyInt left, MyInt right)
+        {
+            return new MyInt(left.value - right.value);
+        }
+
         public static int operator +(MyInt left, List<int> right)
         {
             var sum = left.value;

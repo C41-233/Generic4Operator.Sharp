@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
 
-namespace Generic4Operator
+namespace Generic4Operator.Factory
 {
     internal static class ReflectHelper
     {

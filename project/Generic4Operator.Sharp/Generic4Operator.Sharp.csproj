@@ -34,9 +34,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\OperatorName.cs" />
     <Compile Include="Factory\OperatorFactory.cs" />
     <Compile Include="Factory\ReflectHelper.cs" />
+    <Compile Include="Operator\Subtraction.cs" />
     <Compile Include="Ops.cs" />
     <Compile Include="Operator\Addition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

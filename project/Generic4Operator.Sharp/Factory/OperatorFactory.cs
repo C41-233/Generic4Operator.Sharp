@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Generic4Operator
+namespace Generic4Operator.Factory
 {
     internal static class OperatorFactory
     {
