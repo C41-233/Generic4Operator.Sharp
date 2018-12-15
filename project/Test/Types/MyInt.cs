@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable UnusedMember.Local
 namespace Test.Types
 {
 
@@ -52,6 +53,10 @@ namespace Test.Types
         {
             return new MyInt(left.value - right.value);
         }
+
+        private int this[int offset] => value + offset;
+
+        public long this[int offset1, long offset2] => value + offset1 + offset2;
 
         public static int operator +(MyInt left, List<int> right)
         {

@@ -57,5 +57,6 @@ namespace Generic4Operator.Factory
                 result = (Func<OutT1, OutT2, OutR>) (object) body;
             }
         }
+
     }
 }

@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{082A0BF4-DEB4-4E02-8C96-2D52C05F2BD0}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Generic4Operator</RootNamespace>
-    <AssemblyName>Generic4Operator.Sharp</AssemblyName>
+    <ProjectGuid>{A96B6F43-B9B6-41DF-9586-98C0AE0FD49B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>TestMain</RootNamespace>
+    <AssemblyName>TestMain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,18 +33,29 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\OperatorFactory.cs" />
-    <Compile Include="Factory\ReflectHelper.cs" />
-    <Compile Include="Operator\IndexGet.cs" />
-    <Compile Include="Operator\IndexSet.cs" />
-    <Compile Include="Operator\Subtraction.cs" />
-    <Compile Include="Ops.cs" />
-    <Compile Include="Operator\Addition.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Throw.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Generic4Operator.Sharp\Generic4Operator.Sharp.csproj">
+      <Project>{082a0bf4-deb4-4e02-8c96-2d52c05f2bd0}</Project>
+      <Name>Generic4Operator.Sharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test\Test.csproj">
+      <Project>{a5097a79-2afb-49d4-9c7a-8cbee595edfa}</Project>
+      <Name>Test</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

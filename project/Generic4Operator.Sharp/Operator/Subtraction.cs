@@ -43,7 +43,7 @@ namespace Generic4Operator.Operator
 
             Invoke = Invoke
                 ?? OperatorFactory.CreateDelegate<Func<T1, T2, R>>("op_Subtraction")
-                ?? Throw.Value<T1, T2, R>;
+                ?? Throw.Func<T1, T2, R>;
         }
 
     }

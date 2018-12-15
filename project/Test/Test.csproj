@@ -49,6 +49,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestIndex.cs" />
     <Compile Include="TestOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\MyInt.cs" />
