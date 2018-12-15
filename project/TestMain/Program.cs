@@ -12,7 +12,13 @@ namespace TestMain
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Ops.Index<int[], int, int>(new int[] {1, 2}, 1));
+            Console.WriteLine(Run(1, 2, 3));
         }
+
+        private static T Run<T>(T a, T b, T c)
+        {
+            return Ops.Subtract(Ops.Add(a, b), c);
+        }
+
     }
 }

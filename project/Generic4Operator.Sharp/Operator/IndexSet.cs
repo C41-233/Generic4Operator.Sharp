@@ -35,38 +35,60 @@ namespace Generic4Operator.Operator
 
         internal static TDelegate CreateDelegate<TDelegate>()
         {
-            var delegateMethod = typeof(TDelegate).GetMethod("Invoke");
+            var delegateParameters = typeof(TDelegate).GetMethod("Invoke").GetParameters();
 
-            var paramters = delegateMethod.GetParameters();
+            var instanceType = delegateParameters[0].ParameterType;
+            var parameterTypes = delegateParameters.Skip(1).Select(p => p.ParameterType).ToArray();
 
-            var instanceType = paramters[0].ParameterType;
-            var parameterTypes = paramters.Skip(1).Select(p => p.ParameterType).ToArray();
+            var indexCount = parameterTypes.Length - 1;
+            var passType = parameterTypes[parameterTypes.Length - 1];
 
-            var property = instanceType
-                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .FirstOrDefault(
-                    p => string.Equals(p.Name, "Item", StringComparison.Ordinal)
-                    && p.CanWrite
-                    && p.SetMethod.GetParameters().Is(parameterTypes)
-                );
-            if (property == null)
+            if (instanceType.IsArray 
+                && parameterTypes.Take(indexCount).All(t => t == typeof(int)) 
+                && passType == instanceType.GetElementType()
+            )
             {
-                return default(TDelegate);
-            }
+                var parameterExpressions = delegateParameters.Select(p => Expression.Parameter(p.ParameterType)).ToArray();
 
-            var parameterExpressions = paramters.Select(p => Expression.Parameter(p.ParameterType)).ToArray();
-
-            return Expression.Lambda<TDelegate>(
-                Expression.Assign(
-                    Expression.MakeIndex(
-                        parameterExpressions[0],
-                        property,
-                        parameterExpressions.Skip(1).Take(parameterExpressions.Length - 2)
+                return Expression.Lambda<TDelegate>(
+                    Expression.Assign(
+                        Expression.ArrayAccess(
+                            parameterExpressions[0], 
+                            parameterExpressions.Skip(1).Take(indexCount)
+                        ),
+                        parameterExpressions[parameterExpressions.Length - 1]
                     ),
-                    parameterExpressions[parameterExpressions.Length - 1]
-                ),
-                parameterExpressions
-            ).Compile();
+                    parameterExpressions
+                ).Compile();
+            }
+            else
+            {
+                var property = instanceType
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .FirstOrDefault(
+                        p => string.Equals(p.Name, "Item", StringComparison.Ordinal)
+                        && p.CanWrite
+                        && p.SetMethod.GetParameters().Is(parameterTypes)
+                    );
+                if (property == null)
+                {
+                    return default(TDelegate);
+                }
+
+                var parameterExpressions = delegateParameters.Select(p => Expression.Parameter(p.ParameterType)).ToArray();
+
+                return Expression.Lambda<TDelegate>(
+                    Expression.Assign(
+                        Expression.MakeIndex(
+                            parameterExpressions[0],
+                            property,
+                            parameterExpressions.Skip(1).Take(parameterExpressions.Length - 2)
+                        ),
+                        parameterExpressions[parameterExpressions.Length - 1]
+                    ),
+                    parameterExpressions
+                ).Compile();
+            }
         }
 
     }

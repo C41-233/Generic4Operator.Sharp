@@ -45,13 +45,8 @@ namespace Generic4Operator.Operator
                 && indexTypes.All(t => t == typeof(int))
                 && returnType == instanceType.GetElementType())
             {
-                var dim = indexTypes.Length;
-                var parameterExpressions = new ParameterExpression[dim + 1];
-                parameterExpressions[0] = Expression.Parameter(instanceType);
-                for (var i = 1; i <= dim; i++)
-                {
-                    parameterExpressions[i] = Expression.Parameter(typeof(int));
-                }
+                var parameterExpressions = delegateParameters.Select(p => Expression.Parameter(p.ParameterType)).ToArray();
+
                 return Expression.Lambda<TDelegate>(
                     Expression.ArrayIndex(parameterExpressions[0], parameterExpressions.Skip(1)),
                     parameterExpressions

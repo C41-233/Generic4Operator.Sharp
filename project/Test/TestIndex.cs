@@ -39,5 +39,27 @@ namespace Test
             });
         }
 
+        [TestMethod]
+        public void TestIndexSetArray1()
+        {
+            var list = new int[] { 1, 2, 3, 4 };
+            Ops.Index(list, 2, 2);
+            Assert.AreEqual(4, list.Length);
+            Assert.AreEqual(2, list[2]);
+
+            Assert.ThrowsException<NotSupportedException>(() =>
+            {
+                Ops.Index(list, "1", "2", "3");
+            });
+        }
+
+        [TestMethod]
+        public void TestIndexSetArray2()
+        {
+            var list = new int[,] { {00, 01}, {10, 11} };
+            Ops.Index(list, 1, 0, 55);
+            Assert.AreEqual(55, list[1, 0]);
+        }
+
     }
 }
