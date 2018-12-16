@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Factory\OperatorFactory.cs" />
     <Compile Include="Factory\ReflectHelper.cs" />
+    <Compile Include="Operator\Increment.cs" />
     <Compile Include="Operator\IndexGet.cs" />
     <Compile Include="Operator\IndexSet.cs" />
     <Compile Include="Operator\Subtraction.cs" />

@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-
-namespace Generic4Operator
+﻿namespace Generic4Operator
 {
     public struct Var<E>
     {
@@ -13,24 +11,29 @@ namespace Generic4Operator
             this.value = value;
         }
 
-        public static Var<E> operator +(Var<E> var1, Var<E> var2)
+        public static implicit operator E(Var<E> val)
         {
-            return Ops.Add(var1.value, var2.value);
+            return val.value;
         }
 
-        public static Var<E> operator -(Var<E> var1, Var<E> var2)
+        public static implicit operator Var<E>(E val)
         {
-            return Ops.Subtract(var1.value, var2.value);
+            return new Var<E>(val);
         }
 
-        public static implicit operator E(Var<E> value)
+        public static Var<E> operator ++(Var<E> val)
         {
-            return value.value;
+            return Ops.Increase(val.value);
         }
 
-        public static implicit operator Var<E>(E value)
+        public static Var<E> operator +(Var<E> left, Var<E> right)
         {
-            return new Var<E>(value);
+            return Ops.Add(left.value, right.value);
+        }
+
+        public static Var<E> operator -(Var<E> left, Var<E> right)
+        {
+            return Ops.Subtract(left.value, right.value);
         }
 
     }

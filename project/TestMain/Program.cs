@@ -17,7 +17,7 @@ namespace TestMain
                 var a = new BigInteger(i);
                 var b = new BigInteger(i+1);
                 var c = new BigInteger(i + 2);
-                Measure.Test_Var(a, b, c);
+                Measure.Test_Ops(a, b, c);
             }
             watch.Stop();
             Console.WriteLine(watch.ElapsedMilliseconds);

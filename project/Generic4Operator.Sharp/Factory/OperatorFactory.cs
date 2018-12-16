@@ -47,6 +47,16 @@ namespace Generic4Operator.Factory
             return Delegate.CreateDelegate(delegateType, method);
         }
 
+        internal static void TryBind<OutT, OutR, InT, InR>(ref Func<OutT, OutR> result, Func<InT, InR> body)
+        {
+            if (typeof(OutT) == typeof(InT)
+                && typeof(OutR) == typeof(InR)
+            )
+            {
+                result = (Func<OutT, OutR>)(object)body;
+            }
+        }
+
         internal static void TryBind<OutT1, OutT2, OutR, InT1, InT2, InR>(ref Func<OutT1, OutT2, OutR> result, Func<InT1, InT2, InR> body)
         {
             if (typeof(OutT1) == typeof(InT1)
