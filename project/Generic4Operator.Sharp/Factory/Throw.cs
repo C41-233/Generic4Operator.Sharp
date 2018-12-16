@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Generic4Operator
+namespace Generic4Operator.Factory
 {
 
     internal class Throw

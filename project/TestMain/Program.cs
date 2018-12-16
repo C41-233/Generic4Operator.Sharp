@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
+using System.Diagnostics;
+using System.Numerics;
 using Generic4Operator;
-using Test.Types;
 
 namespace TestMain
 {
@@ -12,12 +10,17 @@ namespace TestMain
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Run(1, 2, 3));
-        }
-
-        private static T Run<T>(T a, T b, T c)
-        {
-            return Ops.Subtract(Ops.Add(a, b), c);
+            var watch = new Stopwatch();
+            watch.Start();
+            for (var i = 0; i < 10000000; i++)
+            {
+                var a = new BigInteger(i);
+                var b = new BigInteger(i+1);
+                var c = new BigInteger(i + 2);
+                Measure.Test_Var(a, b, c);
+            }
+            watch.Stop();
+            Console.WriteLine(watch.ElapsedMilliseconds);
         }
 
     }

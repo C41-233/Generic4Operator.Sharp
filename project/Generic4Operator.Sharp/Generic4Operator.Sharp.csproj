@@ -42,7 +42,8 @@
     <Compile Include="Ops.cs" />
     <Compile Include="Operator\Addition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Throw.cs" />
+    <Compile Include="Factory\Throw.cs" />
+    <Compile Include="Var.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
