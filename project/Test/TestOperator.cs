@@ -76,5 +76,57 @@ namespace Test
             Assert.AreEqual(true, Ops.Increase(false));
         }
 
+        [TestMethod]
+        public void TestIncreaseAndGet()
+        {
+            var a = 10;
+            Assert.AreEqual(11, Ops.IncreaseAndGet(ref a));
+            Assert.AreEqual(11, a);
+
+            var b = new BigInteger(100);
+            Assert.AreEqual(new BigInteger(101), Ops.IncreaseAndGet(ref b));
+            Assert.AreEqual(new BigInteger(101), b);
+
+            var c = false;
+            Assert.AreEqual(true, Ops.IncreaseAndGet(ref c));
+            Assert.AreEqual(true, c);
+
+            var d = true;
+            Assert.AreEqual(true, Ops.IncreaseAndGet(ref d));
+            Assert.AreEqual(true, d);
+
+            Assert.ThrowsException<NotSupportedException>(() =>
+            {
+                var s = "";
+                Ops.IncreaseAndGet(ref s);
+            });
+        }
+
+        [TestMethod]
+        public void TestIncreaseAndGetOriginal()
+        {
+            var a = 10;
+            Assert.AreEqual(10, Ops.IncreaseAndGetOriginal(ref a));
+            Assert.AreEqual(11, a);
+
+            var b = new BigInteger(100);
+            Assert.AreEqual(new BigInteger(100), Ops.IncreaseAndGetOriginal(ref b));
+            Assert.AreEqual(new BigInteger(101), b);
+
+            var c = false;
+            Assert.AreEqual(false, Ops.IncreaseAndGetOriginal(ref c));
+            Assert.AreEqual(true, c);
+
+            var d = true;
+            Assert.AreEqual(true, Ops.IncreaseAndGetOriginal(ref d));
+            Assert.AreEqual(true, d);
+
+            Assert.ThrowsException<NotSupportedException>(() =>
+            {
+                var s = "";
+                Ops.IncreaseAndGetOriginal(ref s);
+            });
+        }
+
     }
 }

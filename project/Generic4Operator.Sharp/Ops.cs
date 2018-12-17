@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Generic4Operator.Operator;
+﻿using Generic4Operator.Operator;
 
 namespace Generic4Operator
 {
@@ -38,6 +37,9 @@ namespace Generic4Operator
 
         public static T IncreaseAndGet<T>(ref T value)
             => PrefixIncrement<T>.Invoke(ref value);
+
+        public static T IncreaseAndGetOriginal<T>(ref T value)
+            => PostfixIncrement<T>.Invoke(ref value);
 
     }
 

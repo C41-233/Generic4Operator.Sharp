@@ -1,7 +1,5 @@
-﻿using System;
-using Generic4Operator.Factory;
+﻿using Generic4Operator.Factory;
 
-// ReSharper disable RedundantAssignment
 namespace Generic4Operator.Operator
 {
 
@@ -22,7 +20,6 @@ namespace Generic4Operator.Operator
             OperatorFactory.TryBind(ref Invoke, (ref ulong val) => ++val);
             OperatorFactory.TryBind(ref Invoke, (ref float val) => ++val);
             OperatorFactory.TryBind(ref Invoke, (ref double val) => ++val);
-            OperatorFactory.TryBind(ref Invoke, (ref bool val) => val = true);
             OperatorFactory.TryBind(ref Invoke, (ref char val) => ++val);
 
             Invoke = Invoke ?? ((ref T value) =>
