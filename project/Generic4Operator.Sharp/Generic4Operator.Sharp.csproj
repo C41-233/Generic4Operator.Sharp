@@ -41,7 +41,9 @@
     <Compile Include="Operator\Increment.cs" />
     <Compile Include="Operator\IndexGet.cs" />
     <Compile Include="Operator\IndexSet.cs" />
+    <Compile Include="Operator\PostfixDecrement.cs" />
     <Compile Include="Operator\PostfixIncrement.cs" />
+    <Compile Include="Operator\PrefixDecrement.cs" />
     <Compile Include="Operator\PrefixIncrement.cs" />
     <Compile Include="Operator\Subtraction.cs" />
     <Compile Include="Ops.cs" />

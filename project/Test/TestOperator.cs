@@ -79,53 +79,65 @@ namespace Test
         [TestMethod]
         public void TestIncreaseAndGet()
         {
-            var a = 10;
-            Assert.AreEqual(11, Ops.IncreaseAndGet(ref a));
-            Assert.AreEqual(11, a);
-
-            var b = new BigInteger(100);
-            Assert.AreEqual(new BigInteger(101), Ops.IncreaseAndGet(ref b));
-            Assert.AreEqual(new BigInteger(101), b);
-
-            var c = false;
-            Assert.AreEqual(true, Ops.IncreaseAndGet(ref c));
-            Assert.AreEqual(true, c);
-
-            var d = true;
-            Assert.AreEqual(true, Ops.IncreaseAndGet(ref d));
-            Assert.AreEqual(true, d);
-
-            Assert.ThrowsException<NotSupportedException>(() =>
             {
-                var s = "";
-                Ops.IncreaseAndGet(ref s);
-            });
+                var v = 10;
+                Assert.AreEqual(11, Ops.IncreaseAndGet(ref v));
+                Assert.AreEqual(11, v);
+            }
+            {
+                var v = new BigInteger(100);
+                Assert.AreEqual(new BigInteger(101), Ops.IncreaseAndGet(ref v));
+                Assert.AreEqual(new BigInteger(101), v);
+            }
+            {
+                var v = false;
+                Assert.AreEqual(true, Ops.IncreaseAndGet(ref v));
+                Assert.AreEqual(true, v);
+            }
+            {
+                var v = true;
+                Assert.AreEqual(true, Ops.IncreaseAndGet(ref v));
+                Assert.AreEqual(true, v);
+            }
+            {
+                Assert.ThrowsException<NotSupportedException>(() =>
+                {
+                    var v = "";
+                    Ops.IncreaseAndGet(ref v);
+                });
+            }
         }
 
         [TestMethod]
         public void TestIncreaseAndGetOriginal()
         {
-            var a = 10;
-            Assert.AreEqual(10, Ops.IncreaseAndGetOriginal(ref a));
-            Assert.AreEqual(11, a);
-
-            var b = new BigInteger(100);
-            Assert.AreEqual(new BigInteger(100), Ops.IncreaseAndGetOriginal(ref b));
-            Assert.AreEqual(new BigInteger(101), b);
-
-            var c = false;
-            Assert.AreEqual(false, Ops.IncreaseAndGetOriginal(ref c));
-            Assert.AreEqual(true, c);
-
-            var d = true;
-            Assert.AreEqual(true, Ops.IncreaseAndGetOriginal(ref d));
-            Assert.AreEqual(true, d);
-
-            Assert.ThrowsException<NotSupportedException>(() =>
             {
-                var s = "";
-                Ops.IncreaseAndGetOriginal(ref s);
-            });
+                var v = 10;
+                Assert.AreEqual(10, Ops.IncreaseAndGetOriginal(ref v));
+                Assert.AreEqual(11, v);
+            }
+            {
+                var v = new BigInteger(100);
+                Assert.AreEqual(new BigInteger(100), Ops.IncreaseAndGetOriginal(ref v));
+                Assert.AreEqual(new BigInteger(101), v);
+            }
+            {
+                var v = false;
+                Assert.AreEqual(false, Ops.IncreaseAndGetOriginal(ref v));
+                Assert.AreEqual(true, v);
+            }
+            {
+                var v = true;
+                Assert.AreEqual(true, Ops.IncreaseAndGetOriginal(ref v));
+                Assert.AreEqual(true, v);
+            }
+            {
+                Assert.ThrowsException<NotSupportedException>(() =>
+                {
+                    var v = "";
+                    Ops.IncreaseAndGetOriginal(ref v);
+                });
+            }
         }
 
         [TestMethod]
@@ -147,6 +159,64 @@ namespace Test
 
             Assert.AreEqual(false, Ops.Decrease(true));
             Assert.AreEqual(false, Ops.Decrease(false));
+        }
+
+        [TestMethod]
+        public void TestDecreaseAndGet()
+        {
+            {
+                var v = 1u;
+                Assert.AreEqual(0u, Ops.DecreaseAndGet(ref v));
+                Assert.AreEqual(0u, v);
+            }
+            {
+                var v = 0f;
+                Assert.AreEqual(-1f, Ops.DecreaseAndGet(ref v));
+                Assert.AreEqual(-1f, v);
+            }
+            {
+                var v = new MyInt(-100);
+                Assert.AreEqual(new MyInt(-101), Ops.DecreaseAndGet(ref v));
+                Assert.AreEqual(new MyInt(-101), v);
+            }
+
+            {
+                var v = new BigInteger(-100);
+                Assert.AreEqual(new BigInteger(-101), Ops.DecreaseAndGet(ref v));
+                Assert.AreEqual(new BigInteger(-101), v);
+            }
+        }
+
+        [TestMethod]
+        public void TestDecreaseAndGetOriginal()
+        {
+            {
+                var v = 1u;
+                Assert.AreEqual(1u, Ops.DecreaseAndGetOriginal(ref v));
+                Assert.AreEqual(0u, v);
+            }
+            {
+                var v = 0f;
+                Assert.AreEqual(0f, Ops.DecreaseAndGetOriginal(ref v));
+                Assert.AreEqual(-1f, v);
+            }
+            {
+                var v = new MyInt(-100);
+                Assert.AreEqual(new MyInt(-100), Ops.DecreaseAndGetOriginal(ref v));
+                Assert.AreEqual(new MyInt(-101), v);
+            }
+
+            {
+                var v = new BigInteger(-100);
+                Assert.AreEqual(new BigInteger(-100), Ops.DecreaseAndGetOriginal(ref v));
+                Assert.AreEqual(new BigInteger(-101), v);
+            }
+
+            {
+                var v = new MyLong(-100);
+                Assert.AreSame(v, Ops.DecreaseAndGetOriginal(ref v));
+                Assert.AreEqual(new MyLong(-101), v);
+            }
         }
 
     }

@@ -47,6 +47,12 @@ namespace Generic4Operator
         public static R Decrease<T, R>(T value)
             => Decrement<T, R>.Invoke(value);
 
+        public static T DecreaseAndGet<T>(ref T value)
+            => PrefixDecrement<T>.Invoke(ref value);
+
+        public static T DecreaseAndGetOriginal<T>(ref T value)
+            => PostfixDecrement<T>.Invoke(ref value);
+
     }
 
 }
