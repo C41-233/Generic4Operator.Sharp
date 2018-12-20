@@ -37,6 +37,7 @@
     <Compile Include="Factory\ChangeDelegate.cs" />
     <Compile Include="Factory\OperatorFactory.cs" />
     <Compile Include="Factory\ReflectHelper.cs" />
+    <Compile Include="Operator\Decrement.cs" />
     <Compile Include="Operator\Increment.cs" />
     <Compile Include="Operator\IndexGet.cs" />
     <Compile Include="Operator\IndexSet.cs" />

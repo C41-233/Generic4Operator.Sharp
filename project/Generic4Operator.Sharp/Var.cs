@@ -3,17 +3,16 @@
     public struct Var<E>
     {
 
-        // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private E value;
+        public E Value { get; }
 
         public Var(E value)
         {
-            this.value = value;
+            Value = value;
         }
 
         public static implicit operator E(Var<E> val)
         {
-            return val.value;
+            return val.Value;
         }
 
         public static implicit operator Var<E>(E val)
@@ -21,20 +20,31 @@
             return new Var<E>(val);
         }
 
+        public R Index<I, R>(I index)
+        {
+            return Ops.Index<E, I, R>(Value, index);
+        }
+
         public static Var<E> operator ++(Var<E> val)
         {
-            return Ops.Increase(val.value);
+            return Ops.Increase(val.Value);
+        }
+
+        public static Var<E> operator --(Var<E> val)
+        {
+            return Ops.Decrease(val.Value);
         }
 
         public static Var<E> operator +(Var<E> left, Var<E> right)
         {
-            return Ops.Add(left.value, right.value);
+            return Ops.Add(left.Value, right.Value);
         }
 
         public static Var<E> operator -(Var<E> left, Var<E> right)
         {
-            return Ops.Subtract(left.value, right.value);
+            return Ops.Subtract(left.Value, right.Value);
         }
+
 
     }
 }

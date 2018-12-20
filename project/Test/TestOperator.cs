@@ -128,5 +128,26 @@ namespace Test
             });
         }
 
+        [TestMethod]
+        public void TestDecrease()
+        {
+            Assert.AreEqual(0u, Ops.Decrease(1u));
+            Assert.AreEqual(-1L, Ops.Decrease(0L));
+            Assert.AreEqual(uint.MaxValue, Ops.Decrease(0u));
+
+            Assert.AreEqual(0f, Ops.Decrease(1f));
+
+            Assert.AreEqual(new MyInt(-101), Ops.Decrease<MyInt, MyInt>(new MyInt(-100)));
+
+            Assert.AreEqual(new BigInteger(1), Ops.Decrease(new BigInteger(2)));
+
+            Assert.ThrowsException<NotSupportedException>(() => Ops.Decrease(new List<int>()));
+
+            Assert.ThrowsException<NotSupportedException>(() => Ops.Decrease<MyInt, string>(new MyInt(10)));
+
+            Assert.AreEqual(false, Ops.Decrease(true));
+            Assert.AreEqual(false, Ops.Decrease(false));
+        }
+
     }
 }
