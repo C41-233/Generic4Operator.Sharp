@@ -69,6 +69,11 @@ namespace Test.Types
             return val.value;
         }
 
+        public static string operator -(MyInt val)
+        {
+            return "-" + val.value;
+        }
+
         private int this[int offset] => value + offset;
 
         public long this[int offset1, long offset2] => value + offset1 + offset2;

@@ -45,6 +45,11 @@
             return Ops.Add(left.Value, right.Value);
         }
 
+        public static Var<E> operator -(Var<E> value)
+        {
+            return Ops.Negative(value.Value);
+        }
+
         public static Var<E> operator -(Var<E> left, Var<E> right)
         {
             return Ops.Subtract(left.Value, right.Value);

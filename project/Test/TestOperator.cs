@@ -219,7 +219,6 @@ namespace Test
             }
         }
 
-
         [TestMethod]
         public void TestPositive()
         {
@@ -241,6 +240,19 @@ namespace Test
                 Assert.ThrowsException<NotSupportedException>(() => Ops.Positive<MyInt, long>(new MyInt(15)));
             }
 
+        }
+
+        [TestMethod]
+        public void TestNegative()
+        {
+            Assert.ThrowsException<NotSupportedException>(() => Ops.Negative("123"));
+            Assert.AreEqual(-15, Ops.Negative(15));
+            Assert.AreEqual(true, Ops.Negative(false));
+            Assert.AreEqual(-1.5f, Ops.Negative(1.5f));
+            Assert.AreEqual((decimal)-1.5, Ops.Negative((decimal)1.5));
+            Assert.ThrowsException<NotSupportedException>(() => Ops.Negative(new object()));
+            Assert.AreEqual("-15", Ops.Negative<MyInt, string>(new MyInt(15)));
+            Assert.AreEqual(new BigInteger(-15), Ops.Negative(new BigInteger(15)));
         }
 
     }

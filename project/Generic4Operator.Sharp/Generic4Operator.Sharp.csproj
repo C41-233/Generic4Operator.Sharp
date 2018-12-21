@@ -46,6 +46,7 @@
     <Compile Include="Operator\PrefixDecrement.cs" />
     <Compile Include="Operator\PrefixIncrement.cs" />
     <Compile Include="Operator\Subtraction.cs" />
+    <Compile Include="Operator\UnaryNegation.cs" />
     <Compile Include="Operator\UnaryPlus.cs" />
     <Compile Include="Operator\Zero.cs" />
     <Compile Include="Ops.cs" />

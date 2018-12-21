@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Generic4Operator.Operator;
+﻿using Generic4Operator.Operator;
 
 namespace Generic4Operator
 {
@@ -54,11 +53,20 @@ namespace Generic4Operator
         public static T DecreaseAndGetOriginal<T>(ref T value)
             => PostfixDecrement<T>.Invoke(ref value);
 
-        public static T ZeroValue<T>() => Zero<T>.Invoke();
+        public static T ZeroValue<T>() 
+            => Zero<T>.Invoke();
 
-        public static T Positive<T>(T value) => UnaryPlus<T, T>.Invoke(value);
+        public static T Positive<T>(T value) 
+            => UnaryPlus<T, T>.Invoke(value);
 
-        public static R Positive<T, R>(T value) => UnaryPlus<T, R>.Invoke(value);
+        public static R Positive<T, R>(T value) 
+            => UnaryPlus<T, R>.Invoke(value);
+
+        public static R Negative<T, R>(T value) 
+            => UnaryNegation<T, R>.Invoke(value);
+
+        public static T Negative<T>(T value) 
+            => UnaryNegation<T, T>.Invoke(value);
 
     }
 
