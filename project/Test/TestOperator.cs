@@ -219,5 +219,29 @@ namespace Test
             }
         }
 
+
+        [TestMethod]
+        public void TestPositive()
+        {
+            Assert.AreEqual('0', Ops.Positive('0'));
+            Assert.AreEqual(15, Ops.Positive(15));
+            Assert.AreEqual(false, Ops.Positive(false));
+            Assert.AreEqual(1.5f, Ops.Positive(1.5f));
+            Assert.AreEqual((decimal)1.5, Ops.Positive((decimal)1.5));
+            Assert.AreEqual("123", Ops.Positive("123"));
+
+            {
+                var val = new object();
+                Assert.AreSame(val, Ops.Positive(val));
+            }
+
+            {
+                Assert.AreEqual(new MyInt(15), Ops.Positive(new MyInt(15)));
+                Assert.AreEqual(15, Ops.Positive<MyInt, int>(new MyInt(15)));
+                Assert.ThrowsException<NotSupportedException>(() => Ops.Positive<MyInt, long>(new MyInt(15)));
+            }
+
+        }
+
     }
 }

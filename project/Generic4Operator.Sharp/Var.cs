@@ -35,6 +35,11 @@
             return Ops.Decrease(val.Value);
         }
 
+        public static Var<E> operator +(Var<E> val)
+        {
+            return Ops.Positive(val.Value);
+        }
+
         public static Var<E> operator +(Var<E> left, Var<E> right)
         {
             return Ops.Add(left.Value, right.Value);
