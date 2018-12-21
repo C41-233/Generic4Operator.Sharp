@@ -45,6 +45,7 @@
             return Ops.Subtract(left.Value, right.Value);
         }
 
+        public static E Zero => Ops.ZeroValue<E>();
 
     }
 }

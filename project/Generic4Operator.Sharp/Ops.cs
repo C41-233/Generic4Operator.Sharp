@@ -53,6 +53,8 @@ namespace Generic4Operator
         public static T DecreaseAndGetOriginal<T>(ref T value)
             => PostfixDecrement<T>.Invoke(ref value);
 
+        public static T ZeroValue<T>() => Zero<T>.Invoke();
+
     }
 
 }

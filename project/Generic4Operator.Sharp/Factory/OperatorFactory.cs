@@ -55,6 +55,14 @@ namespace Generic4Operator.Factory
             }
         }
 
+        internal static void TryBind<OutT, InT>(ref Func<OutT> result, Func<InT> body)
+        {
+            if (typeof(OutT) == typeof(InT))
+            {
+                result = (Func<OutT>)(object)body;
+            }
+        }
+
         internal static void TryBind<OutT, OutR, InT, InR>(ref Func<OutT, OutR> result, Func<InT, InR> body)
         {
             if (typeof(OutT) == typeof(InT)
