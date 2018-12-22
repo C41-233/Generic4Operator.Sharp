@@ -77,6 +77,12 @@ namespace Generic4Operator
         public static T LogicalNot<T>(T value)
             => Operator.LogicalNot<T, T>.Invoke(value);
 
+        public static R Complement<T, R>(T value)
+            => OnesComplement<T, R>.Invoke(value);
+
+        public static T Complement<T>(T value)
+            => OnesComplement<T, T>.Invoke(value);
+
     }
 
 }

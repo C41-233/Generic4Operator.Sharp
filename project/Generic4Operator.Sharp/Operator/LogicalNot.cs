@@ -60,7 +60,6 @@ namespace Generic4Operator.Operator
                 ?? Throw.Func<T, R>;
         }
 
-
     }
 
 }

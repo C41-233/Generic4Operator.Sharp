@@ -92,6 +92,12 @@ namespace Test.Types
         {
             return value.value == 0;
         }
+
+        public static int operator ~(MyInt value)
+        {
+            return ~value.value;
+        }
+    
     }
 
 }

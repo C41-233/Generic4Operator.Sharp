@@ -264,5 +264,15 @@ namespace Test
             Assert.ThrowsException<NotSupportedException>(() => Ops.Not(new BigInteger(0)));
         }
 
+        [TestMethod]
+        public void TestComplement()
+        {
+            Assert.AreEqual(~15, Ops.Complement(15));
+            Assert.AreEqual(true, Ops.Complement(false));
+            Assert.AreEqual(false, Ops.Complement(true));
+            Assert.AreEqual(~new BigInteger(15), Ops.Complement(new BigInteger(15)));
+            Assert.AreEqual(~15, Ops.Complement<MyInt, int>(new MyInt(15)));
+        }
+
     }
 }
