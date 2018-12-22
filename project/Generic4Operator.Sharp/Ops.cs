@@ -68,6 +68,15 @@ namespace Generic4Operator
         public static T Negative<T>(T value) 
             => UnaryNegation<T, T>.Invoke(value);
 
+        public static R LogicalNot<T, R>(T value)
+            => Operator.LogicalNot<T, R>.Invoke(value);
+
+        public static bool Not<T>(T value)
+            => Operator.LogicalNot<T, bool>.Invoke(value);
+
+        public static T LogicalNot<T>(T value)
+            => Operator.LogicalNot<T, T>.Invoke(value);
+
     }
 
 }

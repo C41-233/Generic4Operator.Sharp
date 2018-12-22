@@ -34,6 +34,10 @@ namespace Test.Types
             return value;
         }
 
+        private int this[int offset] => value + offset;
+
+        public long this[int offset1, long offset2] => value + offset1 + offset2;
+
         public static bool operator ==(MyInt left, MyInt right)
         {
             return left.Equals(right);
@@ -74,10 +78,6 @@ namespace Test.Types
             return "-" + val.value;
         }
 
-        private int this[int offset] => value + offset;
-
-        public long this[int offset1, long offset2] => value + offset1 + offset2;
-
         public static int operator +(MyInt left, List<int> right)
         {
             var sum = left.value;
@@ -86,6 +86,11 @@ namespace Test.Types
                 sum += v;
             }
             return sum;
+        }
+
+        public static bool operator !(MyInt value)
+        {
+            return value.value == 0;
         }
     }
 

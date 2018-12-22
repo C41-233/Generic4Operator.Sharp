@@ -15,14 +15,8 @@ namespace Generic4Operator.Operator
             {
                 return;
             }
-            if (typeof(T) == typeof(R))
-            {
-                Invoke = (Func<T, R>)(object)(Func<T, T>)(val => val);
-            }
-            else
-            {
-                Invoke = Throw.Func<T, R>;
-            }
+            OperatorFactory.TryBind<T, R, T, T>(ref Invoke, val => val);
+            Invoke = Invoke ?? Throw.Func<T, R>;
         }
 
     }

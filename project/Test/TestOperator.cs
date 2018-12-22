@@ -255,5 +255,14 @@ namespace Test
             Assert.AreEqual(new BigInteger(-15), Ops.Negative(new BigInteger(15)));
         }
 
+        [TestMethod]
+        public void TestNot()
+        {
+            Assert.AreEqual(-15, Ops.LogicalNot(15));
+            Assert.AreEqual(true, Ops.Not(false));
+            Assert.AreEqual(false, Ops.Not(true));
+            Assert.ThrowsException<NotSupportedException>(() => Ops.Not(new BigInteger(0)));
+        }
+
     }
 }
