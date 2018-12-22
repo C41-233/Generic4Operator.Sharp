@@ -88,6 +88,11 @@ namespace Test.Types
             return sum;
         }
 
+        public static MyInt operator *(MyInt left, MyInt right)
+        {
+            return new MyInt(left.value * right.value);
+        }
+
         public static bool operator !(MyInt value)
         {
             return value.value == 0;

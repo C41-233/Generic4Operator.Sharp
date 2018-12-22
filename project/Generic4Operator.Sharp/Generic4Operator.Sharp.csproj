@@ -42,6 +42,7 @@
     <Compile Include="Operator\IndexGet.cs" />
     <Compile Include="Operator\IndexSet.cs" />
     <Compile Include="Operator\LogicalNot.cs" />
+    <Compile Include="Operator\Multiply.cs" />
     <Compile Include="Operator\OnesComplement.cs" />
     <Compile Include="Operator\PostfixDecrement.cs" />
     <Compile Include="Operator\PostfixIncrement.cs" />

@@ -17,6 +17,12 @@ namespace Generic4Operator
         public static T Subtract<T>(T left, T right)
             => Subtraction<T, T, T>.Invoke(left, right);
 
+        public static R Multiply<T1, T2, R>(T1 left, T2 right)
+            => Operator.Multiply<T1, T2, R>.Invoke(left, right);
+
+        public static T Multiply<T>(T left, T right)
+            => Operator.Multiply<T, T, T>.Invoke(left, right);
+
         public static R Index<T, I, R>(T value, I index)
             => IndexGet<T, I, R>.Invoke(value, index);
 

@@ -58,6 +58,29 @@ namespace Test
         }
 
         [TestMethod]
+        public void TestMultiply()
+        {
+            Assert.AreEqual(1u * 2u, Ops.Multiply(1u, 2u));
+            Assert.AreEqual(1 + 2, Ops.Multiply(1, 2));
+            Assert.AreEqual(1f + 2f, Ops.Multiply(1f, 2f));
+            Assert.AreEqual(1d + 2d, Ops.Multiply(1d, 2d));
+            Assert.AreEqual(1 + (decimal)2, Ops.Multiply(1, (decimal)2));
+            Assert.AreEqual("1" + "2", Ops.Multiply("1", "2"));
+
+            Assert.AreEqual(new BigInteger(3), Ops.Multiply(new BigInteger(1), new BigInteger(2)));
+
+            Assert.AreEqual(new MyInt(3), Ops.Multiply(new MyInt(1), new MyInt(2)));
+            Assert.AreEqual(1 + 2 + 3, Ops.Multiply<MyInt, List<int>, int>(new MyInt(1), new List<int> { 2, 3 }));
+
+            Assert.ThrowsException<NotSupportedException>(() => Ops.Multiply(new List<int>(), new List<int>()));
+
+            Assert.AreEqual(true, Ops.Multiply(true, true));
+            Assert.AreEqual(true, Ops.Multiply(true, false));
+            Assert.AreEqual(true, Ops.Multiply(false, true));
+            Assert.AreEqual(false, Ops.Multiply(false, false));
+        }
+
+        [TestMethod]
         public void TestIncrease()
         {
             Assert.AreEqual(1u + 1u, Ops.Increase(1u));
