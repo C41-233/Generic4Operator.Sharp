@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Generic4Operator.Factory
@@ -75,6 +76,8 @@ namespace Generic4Operator.Factory
 
         internal static void TryBind<OutT1, OutT2, OutR, InT1, InT2, InR>(ref Func<OutT1, OutT2, OutR> result, Func<InT1, InT2, InR> body)
         {
+            Debug.Assert(!ReferenceEquals(result, body));
+
             if (typeof(OutT1) == typeof(InT1)
                 && typeof(OutT2) == typeof(InT2)
                 && typeof(OutR) == typeof(InR)

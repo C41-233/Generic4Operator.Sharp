@@ -30,6 +30,8 @@
 
         public static Var<E> operator *(Var<E> left, Var<E> right) => Ops.Multiply(left.Value, right.Value);
 
+        public static Var<E> operator /(Var<E> left, Var<E> right) => Ops.Divide(left.Value, right.Value);
+
         public static Var<E> operator !(Var<E> value) => Ops.LogicalNot(value.Value);
 
         public static Var<E> operator ~(Var<E> value) => Ops.Complement(value.Value);

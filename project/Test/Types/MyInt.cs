@@ -93,6 +93,11 @@ namespace Test.Types
             return new MyInt(left.value * right.value);
         }
 
+        public static double operator /(MyInt left, MyInt right)
+        {
+            return left.value / (double) right.value;
+        }
+
         public static bool operator !(MyInt value)
         {
             return value.value == 0;

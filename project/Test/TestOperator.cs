@@ -61,23 +61,32 @@ namespace Test
         public void TestMultiply()
         {
             Assert.AreEqual(1u * 2u, Ops.Multiply(1u, 2u));
-            Assert.AreEqual(1 + 2, Ops.Multiply(1, 2));
-            Assert.AreEqual(1f + 2f, Ops.Multiply(1f, 2f));
-            Assert.AreEqual(1d + 2d, Ops.Multiply(1d, 2d));
-            Assert.AreEqual(1 + (decimal)2, Ops.Multiply(1, (decimal)2));
-            Assert.AreEqual("1" + "2", Ops.Multiply("1", "2"));
+            Assert.AreEqual(1 * 2, Ops.Multiply(1, 2));
+            Assert.AreEqual(1f * 2f, Ops.Multiply(1f, 2f));
+            Assert.AreEqual(1d * 2d, Ops.Multiply(1d, 2d));
+            Assert.AreEqual(1 * (decimal)2, Ops.Multiply(1, (decimal)2));
+            Assert.AreEqual("11", Ops.Multiply<string, int, string>("1", 2));
 
-            Assert.AreEqual(new BigInteger(3), Ops.Multiply(new BigInteger(1), new BigInteger(2)));
+            Assert.AreEqual(new BigInteger(2), Ops.Multiply(new BigInteger(1), new BigInteger(2)));
 
-            Assert.AreEqual(new MyInt(3), Ops.Multiply(new MyInt(1), new MyInt(2)));
-            Assert.AreEqual(1 + 2 + 3, Ops.Multiply<MyInt, List<int>, int>(new MyInt(1), new List<int> { 2, 3 }));
+            Assert.AreEqual(new MyInt(2), Ops.Multiply(new MyInt(1), new MyInt(2)));
 
             Assert.ThrowsException<NotSupportedException>(() => Ops.Multiply(new List<int>(), new List<int>()));
 
             Assert.AreEqual(true, Ops.Multiply(true, true));
-            Assert.AreEqual(true, Ops.Multiply(true, false));
-            Assert.AreEqual(true, Ops.Multiply(false, true));
+            Assert.AreEqual(false, Ops.Multiply(true, false));
+            Assert.AreEqual(false, Ops.Multiply(false, true));
             Assert.AreEqual(false, Ops.Multiply(false, false));
+        }
+
+        [TestMethod]
+        public void TestDivide()
+        {
+            Assert.AreEqual(1u / 2u, Ops.Divide(1u, 2u));
+            Assert.AreEqual(5 / 2, Ops.Divide(5, 2));
+            Assert.AreEqual(5f / 2f, Ops.Divide<int, int, float>(5, 2));
+            Assert.AreEqual(5f / 2f, Ops.Divide<MyInt, MyInt, double>(new MyInt(5), new MyInt(2)));
+            Assert.AreEqual(new BigInteger(3), Ops.Divide(new BigInteger(12), new BigInteger(4)));
         }
 
         [TestMethod]

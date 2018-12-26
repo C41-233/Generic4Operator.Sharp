@@ -1,4 +1,5 @@
-﻿using Generic4Operator.Operator;
+﻿using System.Runtime.InteropServices.ComTypes;
+using Generic4Operator.Operator;
 
 namespace Generic4Operator
 {
@@ -22,6 +23,12 @@ namespace Generic4Operator
 
         public static T Multiply<T>(T left, T right)
             => Operator.Multiply<T, T, T>.Invoke(left, right);
+
+        public static R Divide<T1, T2, R>(T1 left, T2 right)
+            => Division<T1, T2, R>.Invoke(left, right);
+
+        public static T Divide<T>(T left, T right)
+            => Division<T, T, T>.Invoke(left, right);
 
         public static R Index<T, I, R>(T value, I index)
             => IndexGet<T, I, R>.Invoke(value, index);
