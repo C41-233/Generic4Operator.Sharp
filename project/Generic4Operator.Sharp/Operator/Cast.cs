@@ -20,9 +20,11 @@ namespace Generic4Operator.Operator
                     parameter
                 ).Compile();
             }
-            catch (InvalidOperationException) { }
+            catch (InvalidOperationException)
+            {
+                Invoke = Invoke ?? Throw.Func<T, R>;
+            }
 
-            Invoke = Invoke ?? Throw.Func<T, R>;
         }
 
     }
