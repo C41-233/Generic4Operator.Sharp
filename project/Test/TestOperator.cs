@@ -306,5 +306,23 @@ namespace Test
             Assert.AreEqual(~15, Ops.Complement<MyInt, int>(new MyInt(15)));
         }
 
+        [TestMethod]
+        public void TestCast()
+        {
+            Assert.AreEqual(5, Ops.Cast<int, int>(5));
+            Assert.AreEqual(5L, Ops.Cast<int, long>(5));
+            Assert.AreEqual(5, Ops.Cast<long, int>(5));
+            Assert.AreEqual("abc", Ops.Cast<string, object>("abc"));
+
+            Assert.ThrowsException<NotSupportedException>(() =>
+            {
+                Ops.Cast<string, long>("5");
+            });
+
+            {
+                Assert.AreEqual((int)new BigInteger(12), Ops.Cast<BigInteger, int>(new BigInteger(12)));
+            }
+        }
+
     }
 }

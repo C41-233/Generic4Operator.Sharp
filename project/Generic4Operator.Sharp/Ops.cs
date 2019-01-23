@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices.ComTypes;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices.ComTypes;
 using Generic4Operator.Operator;
 
 namespace Generic4Operator
@@ -95,6 +96,9 @@ namespace Generic4Operator
 
         public static T Complement<T>(T value)
             => OnesComplement<T, T>.Invoke(value);
+
+        public static R Cast<T, R>(T value)
+            => Operator.Cast<T, R>.Invoke(value);
 
     }
 
