@@ -15,23 +15,31 @@ namespace Generic4Operator.Operator
             OperatorFactory.TryBind(ref Invoke, (bool a, bool b) => a || b);
             OperatorFactory.TryBind(ref Invoke, (string a, string b) => a + b);
 
+            OperatorFactory.TryBind(ref Invoke, (int a, float b) => a + b);
+            OperatorFactory.TryBind(ref Invoke, (int a, double b) => a + b);
+
             if (Invoke != null)
             {
                 return;
             }
+
             try
             {
                 var parameter1 = Expression.Parameter(typeof(T1));
                 var parameter2 = Expression.Parameter(typeof(T2));
                 Invoke = Expression.Lambda<Func<T1, T2, R>>(
-                    Expression.Add(parameter1, parameter2),
+                    Expression.Convert(
+                        Expression.Add(parameter1, parameter2), 
+                        typeof(R)
+                    ),
                     parameter1, parameter2
                 ).Compile();
             }
-            catch (InvalidOperationException)
+            catch (Exception)
             {
-                Invoke = Invoke ?? Throw.Func<T1, T2, R>;
+                Invoke = Throw.Func<T1, T2, R>;
             }
+
         }
 
     }

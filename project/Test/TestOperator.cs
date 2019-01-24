@@ -20,6 +20,8 @@ namespace Test
             Assert.AreEqual(1d + 2d, Ops.Add(1d, 2d));
             Assert.AreEqual(1 + (decimal)2, Ops.Add(1, (decimal)2));
             Assert.AreEqual("1" + "2", Ops.Add("1", "2"));
+            Assert.AreEqual(3u, Ops.Add<int, int, uint>(1, 2));
+            Assert.AreEqual(1 + 2f, Ops.Add<int, float, float>(1, 2f));
 
             Assert.AreEqual(new BigInteger(3) , Ops.Add(new BigInteger(1), new BigInteger(2)));
 
@@ -79,13 +81,14 @@ namespace Test
             Assert.AreEqual(false, Ops.Multiply(false, false));
         }
 
+        // ReSharper disable once PossibleLossOfFraction
         [TestMethod]
         public void TestDivide()
         {
             Assert.AreEqual(1u / 2u, Ops.Divide(1u, 2u));
             Assert.AreEqual(5 / 2, Ops.Divide(5, 2));
-            Assert.AreEqual(5f / 2f, Ops.Divide<int, int, float>(5, 2));
-            Assert.AreEqual(5f / 2f, Ops.Divide<MyInt, MyInt, double>(new MyInt(5), new MyInt(2)));
+            Assert.AreEqual(5 / 2, Ops.Divide<int, int, float>(5, 2));
+            Assert.AreEqual(new MyInt(5) / new MyInt(2), Ops.Divide<MyInt, MyInt, double>(new MyInt(5), new MyInt(2)));
             Assert.AreEqual(new BigInteger(3), Ops.Divide(new BigInteger(12), new BigInteger(4)));
         }
 
