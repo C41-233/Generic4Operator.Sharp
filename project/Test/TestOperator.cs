@@ -22,6 +22,9 @@ namespace Test
             Assert.AreEqual("1" + "2", Ops.Add("1", "2"));
             Assert.AreEqual(3u, Ops.Add<int, int, uint>(1, 2));
             Assert.AreEqual(1 + 2f, Ops.Add<int, float, float>(1, 2f));
+            Assert.AreEqual(1 + 2L, Ops.Add<int, long, long>(1, 2L));
+            Assert.AreEqual(1 + 2u, Ops.Add<int, uint, long>(1, 2u));
+            Assert.AreEqual((int)(1 + 2u), Ops.Add<int, uint, int>(1, 2u));
 
             Assert.AreEqual(new BigInteger(3) , Ops.Add(new BigInteger(1), new BigInteger(2)));
 
