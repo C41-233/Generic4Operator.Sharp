@@ -22,6 +22,16 @@ namespace Test.Types
             return new MyLong(value.value - 1);
         }
 
+        public static implicit operator MyLong(long value)
+        {
+            return new MyLong(value);
+        }
+
+        public static implicit operator Derive(MyLong value)
+        {
+            return new Derive();
+        }
+
         public bool Equals(MyLong other)
         {
             return value == other.value;

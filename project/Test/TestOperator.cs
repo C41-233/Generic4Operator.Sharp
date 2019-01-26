@@ -344,7 +344,6 @@ namespace Test
             {
                 long rst = 5;
                 Assert.AreEqual(rst, Ops.ImplicitCast<int, long>(5));
-                Assert.IsTrue(Ops.CanImplicitCast<int, long>());
             }
 
             {
@@ -353,8 +352,13 @@ namespace Test
             }
 
             {
-                Assert.IsFalse(Ops.CanImplicitCast<BigInteger, long>());
+                MyLong rst = 5;
+                Assert.AreEqual(rst, Ops.ImplicitCast<int, MyLong>(5));
             }
+
+            Assert.IsTrue(Ops.CanImplicitCast<int, long>());
+            Assert.IsFalse(Ops.CanImplicitCast<BigInteger, long>());
+            Assert.IsTrue(Ops.CanImplicitCast<MyLong, Base>());
         }
 
     }

@@ -52,6 +52,7 @@
     <Compile Include="TestIndex.cs" />
     <Compile Include="TestOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Inherit.cs" />
     <Compile Include="Types\MyInt.cs" />
     <Compile Include="Types\MyLong.cs" />
   </ItemGroup>

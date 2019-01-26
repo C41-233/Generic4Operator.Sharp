@@ -123,10 +123,11 @@ namespace Generic4Operator.Operator
                     return;
                 }
 
+                //implicit indirect cast
                 foreach (var method in methodsOfT)
                 {
                     var tmp = PrimitiveImplicitCastTable.TryGetImplicitCast(method.ReturnType, typeof(R));
-                    if (tmp != null)
+                    if (tmp != null || method.ReturnType.IsSubclassOf(typeof(R)))
                     {
                         var parameter = Expression.Parameter(typeof(T));
                         Invoke = Expression.Lambda<Func<T, R>>(
@@ -135,6 +136,24 @@ namespace Generic4Operator.Operator
                                 typeof(R)
                             ),
                             parameter    
+                        ).Compile();
+                        return;
+                    }
+                }
+
+                foreach (var method in methodsOfR)
+                {
+                    var from = method.GetParameters()[0].ParameterType;
+                    var tmp = PrimitiveImplicitCastTable.TryGetImplicitCast(typeof(T), from);
+                    if (tmp != null || typeof(T).IsSubclassOf(from))
+                    {
+                        var parameter = Expression.Parameter(typeof(T));
+                        Invoke = Expression.Lambda<Func<T, R>>(
+                            Expression.Convert(
+                                Expression.Convert(parameter, from),
+                                typeof(R)
+                            ),
+                            parameter
                         ).Compile();
                         return;
                     }
