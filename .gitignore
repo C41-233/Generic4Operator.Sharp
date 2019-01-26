@@ -3,3 +3,4 @@
 /project/**/obj
 /project/packages
 /project/TestResults
+/project/**/*.sln.DotSettings.user
