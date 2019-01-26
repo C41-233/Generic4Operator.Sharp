@@ -10,6 +10,8 @@ namespace Generic4Operator.Operator
 
         internal static readonly Func<T, R> Invoke;
 
+        internal static readonly bool Supported;
+
         static Cast()
         {
             var parameter = Expression.Parameter(typeof(T));
@@ -19,10 +21,12 @@ namespace Generic4Operator.Operator
                     Expression.Convert(parameter, typeof(R)),
                     parameter
                 ).Compile();
+                Supported = true;
             }
             catch (Exception)
             {
                 Invoke = Throw.Func<T, R>;
+                Supported = false;
             }
 
         }

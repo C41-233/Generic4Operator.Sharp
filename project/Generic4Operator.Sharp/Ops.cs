@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.InteropServices.ComTypes;
-using Generic4Operator.Operator;
+﻿using Generic4Operator.Operator;
 
 namespace Generic4Operator
 {
@@ -99,6 +97,15 @@ namespace Generic4Operator
 
         public static R Cast<T, R>(T value)
             => Operator.Cast<T, R>.Invoke(value);
+
+        public static bool CanCast<T, R>()
+            => Operator.Cast<T, R>.Supported;
+
+        public static R ImplicitCast<T, R>(T value)
+            => Operator.ImplicitCast<T, R>.Invoke(value);
+
+        public static bool CanImplicitCast<T, R>()
+            => Operator.ImplicitCast<T, R>.Supported;
 
     }
 

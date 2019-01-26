@@ -26,5 +26,6 @@ namespace Generic4Operator.Factory
 
         internal static IEnumerable<MethodInfo> GetSpecialMethods(this Type type)
             => type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.IsSpecialName);
+
     }
 }

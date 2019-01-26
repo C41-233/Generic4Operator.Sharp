@@ -78,7 +78,7 @@ namespace Test.Types
             return "-" + val.value;
         }
 
-        public static int operator +(MyInt left, List<int> right)
+        public static int operator +(MyInt left, IEnumerable<int> right)
         {
             var sum = left.value;
             foreach (var v in right)
@@ -106,6 +106,11 @@ namespace Test.Types
         public static int operator ~(MyInt value)
         {
             return ~value.value;
+        }
+
+        public static implicit operator int(MyInt v)
+        {
+            return v.value;
         }
     
     }

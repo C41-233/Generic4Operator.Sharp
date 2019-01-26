@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using Generic4Operator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,6 +15,7 @@ namespace Test
         [TestMethod]
         public void TestAdd()
         {
+            Assert.AreEqual(unchecked ((byte)(byte.MaxValue + byte.MaxValue)),Ops.Add(byte.MaxValue, byte.MaxValue));
             Assert.AreEqual(1u + 2u, Ops.Add(1u, 2u));
             Assert.AreEqual(1 + 2, Ops.Add(1, 2));
             Assert.AreEqual(1f + 2f, Ops.Add(1f, 2f));
@@ -25,11 +27,16 @@ namespace Test
             Assert.AreEqual(1 + 2L, Ops.Add<int, long, long>(1, 2L));
             Assert.AreEqual(1 + 2u, Ops.Add<int, uint, long>(1, 2u));
             Assert.AreEqual((int)(1 + 2u), Ops.Add<int, uint, int>(1, 2u));
+            Assert.AreEqual(1 + new decimal(2), Ops.Add<int, decimal, decimal>(1, new decimal(2)));
+            Assert.AreEqual(1 + new BigInteger(2), Ops.Add<int, BigInteger, BigInteger>(1, new BigInteger(2)));
+            Assert.AreEqual(1L + new BigInteger(2), Ops.Add<long, BigInteger, BigInteger>(1L, new BigInteger(2)));
+            Assert.AreEqual(1L + new MyInt(2), Ops.Add<long, MyInt, long>(1L, new MyInt(2)));
 
             Assert.AreEqual(new BigInteger(3) , Ops.Add(new BigInteger(1), new BigInteger(2)));
 
             Assert.AreEqual(new MyInt(3), Ops.Add(new MyInt(1), new MyInt(2)));
-            Assert.AreEqual(1 + 2 + 3, Ops.Add<MyInt, List<int>, int>(new MyInt(1), new List<int>{2, 3}));
+            Assert.AreEqual(new MyInt(1) + new List<int>{2, 3}, Ops.Add<MyInt, IEnumerable<int>, int>(new MyInt(1), new List<int>{2, 3}));
+            Assert.AreEqual(new MyInt(1) + new List<int> { 2, 3 }, Ops.Add<MyInt, List<int>, int>(new MyInt(1), new List<int> { 2, 3 }));
 
             Assert.ThrowsException<NotSupportedException>(() => Ops.Add(new List<int>(), new List<int>()));
 
@@ -327,6 +334,26 @@ namespace Test
 
             {
                 Assert.AreEqual((int)new BigInteger(12), Ops.Cast<BigInteger, int>(new BigInteger(12)));
+            }
+        }
+
+        [TestMethod]
+        [SuppressMessage("ReSharper", "ConvertToConstant.Local")]
+        public void TestImplicitCast()
+        {
+            {
+                long rst = 5;
+                Assert.AreEqual(rst, Ops.ImplicitCast<int, long>(5));
+                Assert.IsTrue(Ops.CanImplicitCast<int, long>());
+            }
+
+            {
+                long rst = new MyInt(5);
+                Assert.AreEqual(rst, Ops.ImplicitCast<MyInt, long>(new MyInt(5)));
+            }
+
+            {
+                Assert.IsFalse(Ops.CanImplicitCast<BigInteger, long>());
             }
         }
 
