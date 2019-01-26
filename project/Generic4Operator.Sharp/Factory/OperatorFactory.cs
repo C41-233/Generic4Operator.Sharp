@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Generic4Operator.Factory
 {
     internal static class OperatorFactory
     {
+
+        internal static TDelegate CreateDelegate<TDelegate>(MethodInfo method)
+        {
+            return (TDelegate)(object)Delegate.CreateDelegate(typeof(TDelegate), method);
+        }
 
         internal static TDelegate CreateDelegate<TDelegate>(string operatorName)
             => (TDelegate) (object) CreateDelegate(typeof(TDelegate), operatorName);

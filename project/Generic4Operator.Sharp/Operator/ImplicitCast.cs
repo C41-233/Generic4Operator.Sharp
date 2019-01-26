@@ -14,6 +14,15 @@ namespace Generic4Operator.Operator
 
         static PrimitiveImplicitCastTable()
         {
+            Register<byte, short>(x => x);
+            Register<byte, ushort>(x => x);
+            Register<byte, int>(x => x);
+            Register<byte, uint>(x => x);
+            Register<byte, long>(x => x);
+            Register<byte, ulong>(x => x);
+            Register<byte, float>(x => x);
+            Register<byte, double>(x => x);
+
             Register<int, long>(x => x);
         }
 
@@ -51,6 +60,13 @@ namespace Generic4Operator.Operator
         {
             try
             {
+                //self cast
+                if (typeof(T) == typeof(R))
+                {
+                    Invoke = (Func<T, R>)(object)new Func<T, T>(x => x);
+                    return;
+                }
+
                 //primitive cast
                 Invoke = PrimitiveImplicitCastTable.TryGetImplicitCast<T, R>();
                 if (Invoke != null)
@@ -87,7 +103,7 @@ namespace Generic4Operator.Operator
                         continue;
                     }
 
-                    Invoke = (Func<T, R>) Delegate.CreateDelegate(typeof(T), method);
+                    Invoke = OperatorFactory.CreateDelegate<Func<T, R>>(method);
                     return;
                 }
 
@@ -119,7 +135,7 @@ namespace Generic4Operator.Operator
                         continue;
                     }
 
-                    Invoke = (Func<T, R>)Delegate.CreateDelegate(typeof(R), method);
+                    Invoke = OperatorFactory.CreateDelegate<Func<T, R>>(method);
                     return;
                 }
 

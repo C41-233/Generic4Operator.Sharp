@@ -341,6 +341,8 @@ namespace Test
         [SuppressMessage("ReSharper", "ConvertToConstant.Local")]
         public void TestImplicitCast()
         {
+            Assert.AreEqual((byte)5, Ops.ImplicitCast<byte, byte>(5));
+
             {
                 long rst = 5;
                 Assert.AreEqual(rst, Ops.ImplicitCast<int, long>(5));
@@ -354,6 +356,11 @@ namespace Test
             {
                 MyLong rst = 5;
                 Assert.AreEqual(rst, Ops.ImplicitCast<int, MyLong>(5));
+            }
+
+            {
+                decimal rst = 5;
+                Assert.AreEqual(rst, Ops.ImplicitCast<byte, decimal>(5));
             }
 
             Assert.IsTrue(Ops.CanImplicitCast<int, long>());
