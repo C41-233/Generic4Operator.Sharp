@@ -7,12 +7,14 @@ using Generic4Operator.Factory;
 namespace Generic4Operator.Operator
 {
 
-    internal static class PrimitiveImplicitCastTable
+    internal static class ImplicitCastTable
     {
-        
-        private static readonly List<Tuple<Type, Type, Delegate>> Values = new List<Tuple<Type, Type, Delegate>>();
 
-        static PrimitiveImplicitCastTable()
+        private const string OperatorName = "op_Implicit";
+
+        private static readonly List<Tuple<Type, Type>> Values = new List<Tuple<Type, Type>>();
+
+        static ImplicitCastTable()
         {
             Register<byte, short>(x => x);
             Register<byte, ushort>(x => x);
@@ -26,25 +28,126 @@ namespace Generic4Operator.Operator
             Register<int, long>(x => x);
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void Register<T, R>(Func<T, R> func)
         {
-            Values.Add(Tuple.Create(typeof(T), typeof(R), (Delegate)func));
+            Values.Add(Tuple.Create(typeof(T), typeof(R)));
         }
 
-        internal static Func<T, R> TryGetImplicitCast<T, R>()
-        {
-            return (Func<T, R>)TryGetImplicitCast(typeof(T), typeof(R));
-        }
-
-        internal static Delegate TryGetImplicitCast(Type t, Type r)
+        private static bool CanPrimitiveCast(Type t, Type r)
         {
             foreach (var value in Values)
             {
                 if (value.Item1 == t && value.Item2 == r)
                 {
-                    return value.Item3;
+                    return true;
                 }
             }
+            return false;
+        }
+
+        internal static Expression CreateConvertExpression(Expression expression, Type to)
+        {
+            var from = expression.Type;
+
+            //self cast
+            if (from == to)
+            {
+                return expression;
+            }
+
+            //primitive cast
+            if (CanPrimitiveCast(from, to))
+            {
+                return Expression.Convert(expression, to);
+            }
+
+            //object cast
+            if (from.IsSubclassOf(to))
+            {
+                return Expression.Convert(expression, to);
+            }
+
+            //T -> ?
+            var methodsOfT = from.GetSpecialMethods().Where(m =>
+            {
+                if (m.Name != OperatorName)
+                {
+                    return false;
+                }
+                var paramters = m.GetParameters();
+                if (paramters.Length != 1 || paramters[0].ParameterType != from)
+                {
+                    return false;
+                }
+                return true;
+            }).ToArray();
+
+            foreach (var method in methodsOfT)
+            {
+                if (method.ReturnType != to)
+                {
+                    continue;
+                }
+
+                return Expression.Convert(expression, to, method);
+            }
+
+            // ? -> R
+            var methodsOfR = to.GetSpecialMethods().Where(m =>
+            {
+                if (m.Name != OperatorName)
+                {
+                    return false;
+                }
+                if (m.ReturnType != to)
+                {
+                    return false;
+                }
+
+                var paramters = m.GetParameters();
+                if (paramters.Length != 1)
+                {
+                    return false;
+                }
+
+                return true;
+            }).ToArray();
+
+            foreach (var method in methodsOfR)
+            {
+                if (method.GetParameters()[0].ParameterType != from)
+                {
+                    continue;
+                }
+
+                return Expression.Convert(expression, to, method);
+            }
+
+            //implicit indirect cast
+            foreach (var method in methodsOfT)
+            {
+                if (CanPrimitiveCast(method.ReturnType, to) || method.ReturnType.IsSubclassOf(to))
+                {
+                    return Expression.Convert(
+                        Expression.Convert(expression, method.ReturnType),
+                        to
+                    );
+                }
+            }
+
+            foreach (var method in methodsOfR)
+            {
+                var tmp = method.GetParameters()[0].ParameterType;
+                if (CanPrimitiveCast(from, tmp) || from.IsSubclassOf(tmp))
+                {
+                    return Expression.Convert(
+                        Expression.Convert(expression, tmp),
+                        to
+                    );
+                }
+            }
+
             return null;
         }
 
@@ -60,120 +163,16 @@ namespace Generic4Operator.Operator
         {
             try
             {
-                //self cast
-                if (typeof(T) == typeof(R))
-                {
-                    Invoke = (Func<T, R>)(object)new Func<T, T>(x => x);
-                    return;
-                }
-
-                //primitive cast
-                Invoke = PrimitiveImplicitCastTable.TryGetImplicitCast<T, R>();
-                if (Invoke != null)
+                var p = Expression.Parameter(typeof(T));
+                var expression = ImplicitCastTable.CreateConvertExpression(p, typeof(R));
+                if (expression == null)
                 {
                     return;
                 }
-
-                //object cast
-                if (typeof(T).IsSubclassOf(typeof(R)))
-                {
-                    Invoke = Cast<T, R>.Invoke;
-                    return;
-                }
-
-                //T -> ?
-                var methodsOfT = typeof(T).GetSpecialMethods().Where(m =>
-                {
-                    if (m.Name != "op_Implicit")
-                    {
-                        return false;
-                    }
-                    var paramters = m.GetParameters();
-                    if (paramters.Length != 1 || paramters[0].ParameterType != typeof(T))
-                    {
-                        return false;
-                    }
-                    return true;
-                }).ToArray();
-
-                foreach (var method in methodsOfT)
-                {
-                    if (method.ReturnType != typeof(R))
-                    {
-                        continue;
-                    }
-
-                    Invoke = OperatorFactory.CreateDelegate<Func<T, R>>(method);
-                    return;
-                }
-
-                // ? -> R
-                var methodsOfR = typeof(R).GetSpecialMethods().Where(m =>
-                {
-                    if (m.Name != "op_Implicit")
-                    {
-                        return false;
-                    }
-                    if (m.ReturnType != typeof(R))
-                    {
-                        return false;
-                    }
-
-                    var paramters = m.GetParameters();
-                    if (paramters.Length != 1)
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }).ToArray();
-
-                foreach (var method in methodsOfR)
-                {
-                    if (method.GetParameters()[0].ParameterType != typeof(T))
-                    {
-                        continue;
-                    }
-
-                    Invoke = OperatorFactory.CreateDelegate<Func<T, R>>(method);
-                    return;
-                }
-
-                //implicit indirect cast
-                foreach (var method in methodsOfT)
-                {
-                    var tmp = PrimitiveImplicitCastTable.TryGetImplicitCast(method.ReturnType, typeof(R));
-                    if (tmp != null || method.ReturnType.IsSubclassOf(typeof(R)))
-                    {
-                        var parameter = Expression.Parameter(typeof(T));
-                        Invoke = Expression.Lambda<Func<T, R>>(
-                            Expression.Convert(
-                                Expression.Convert(parameter, method.ReturnType),
-                                typeof(R)
-                            ),
-                            parameter    
-                        ).Compile();
-                        return;
-                    }
-                }
-
-                foreach (var method in methodsOfR)
-                {
-                    var from = method.GetParameters()[0].ParameterType;
-                    var tmp = PrimitiveImplicitCastTable.TryGetImplicitCast(typeof(T), from);
-                    if (tmp != null || typeof(T).IsSubclassOf(from))
-                    {
-                        var parameter = Expression.Parameter(typeof(T));
-                        Invoke = Expression.Lambda<Func<T, R>>(
-                            Expression.Convert(
-                                Expression.Convert(parameter, from),
-                                typeof(R)
-                            ),
-                            parameter
-                        ).Compile();
-                        return;
-                    }
-                }
+                Invoke = Expression.Lambda<Func<T, R>>(
+                    expression,
+                    p
+                ).Compile();
             }
             finally
             {

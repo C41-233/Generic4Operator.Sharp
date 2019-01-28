@@ -14,21 +14,29 @@ namespace Generic4Operator.Operator
 
         static Cast()
         {
-            var parameter = Expression.Parameter(typeof(T));
             try
             {
-                Invoke = Expression.Lambda<Func<T, R>>(
-                    Expression.Convert(parameter, typeof(R)),
-                    parameter
-                ).Compile();
-                Supported = true;
-            }
-            catch (Exception)
-            {
-                Invoke = Throw.Func<T, R>;
-                Supported = false;
-            }
+                if (ImplicitCast<T, R>.Supported)
+                {
+                    Invoke = ImplicitCast<T, R>.Invoke;
+                    return;
+                }
 
+                var parameter = Expression.Parameter(typeof(T));
+                try
+                {
+                    Invoke = Expression.Lambda<Func<T, R>>(
+                        Expression.Convert(parameter, typeof(R)),
+                        parameter
+                    ).Compile();
+                }
+                catch{ }
+            }
+            finally
+            {
+                Supported = Invoke != null;
+                Invoke = Invoke ?? Throw.Func<T, R>;
+            }
         }
 
     }

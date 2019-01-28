@@ -326,6 +326,7 @@ namespace Test
             Assert.AreEqual(5L, Ops.Cast<int, long>(5));
             Assert.AreEqual(5, Ops.Cast<long, int>(5));
             Assert.AreEqual("abc", Ops.Cast<string, object>("abc"));
+            Assert.AreEqual(new MyLong(5), Ops.Cast<int, MyLong>(5));
 
             Assert.ThrowsException<NotSupportedException>(() =>
             {

@@ -27,5 +27,10 @@ namespace Generic4Operator.Factory
         internal static IEnumerable<MethodInfo> GetSpecialMethods(this Type type)
             => type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.IsSpecialName);
 
+        internal static T GetFieldValue<T>(this Type type, string fieldName)
+        {
+            return (T)type.GetField(fieldName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).GetValue(null);
+        }
+
     }
 }

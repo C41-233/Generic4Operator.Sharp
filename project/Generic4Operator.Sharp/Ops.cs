@@ -8,8 +8,14 @@ namespace Generic4Operator
         public static R Add<T1, T2, R>(T1 left, T2 right) 
             => Addition<T1, T2, R>.Invoke(left, right);
 
+        public static bool CanAdd<T1, T2, R>()
+            => Addition<T1, T2, R>.Supported;
+
         public static T Add<T>(T left, T right) 
             => Addition<T, T, T>.Invoke(left, right);
+
+        public static bool CanAdd<T>()
+            => Addition<T, T, T>.Supported;
 
         public static R Subtract<T1, T2, R>(T1 left, T2 right)
             => Subtraction<T1, T2, R>.Invoke(left, right);
