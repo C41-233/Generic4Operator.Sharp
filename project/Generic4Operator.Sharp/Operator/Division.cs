@@ -4,24 +4,34 @@ using Generic4Operator.Factory;
 
 namespace Generic4Operator.Operator
 {
+
+    internal static class DivisionTable
+    {
+
+        internal static readonly BinaryOperatorFactory Factory = new BinaryOperatorFactory("op_Division", Expression.Divide);
+
+        static DivisionTable()
+        {
+        }
+    }
+
     internal static class Division<T1, T2, R>
     {
         internal static readonly Func<T1, T2, R> Invoke;
+        internal static readonly bool Supported;
 
         static Division()
         {
             try
             {
-                var parameter1 = Expression.Parameter(typeof(T1));
-                var parameter2 = Expression.Parameter(typeof(T2));
-                Invoke = Expression.Lambda<Func<T1, T2, R>>(
-                    Expression.Convert(Expression.Divide(parameter1, parameter2), typeof(R)),
-                    parameter1, parameter2
-                ).Compile();
+                OperatorFactory.TryBind(ref Invoke, (int x, int y) => x / (float)y);
+
+                Invoke = Invoke ?? DivisionTable.Factory.CreateDelegate<T1, T2, R>();
             }
-            catch (Exception)
+            finally
             {
-                Invoke = Throw.Func<T1, T2, R>;
+                Supported = Invoke != null;
+                Invoke = Invoke ?? Throw.Func<T1, T2, R>;
             }
         }
 

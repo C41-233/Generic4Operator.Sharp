@@ -52,12 +52,7 @@ namespace Generic4Operator.Operator
                 OperatorFactory.TryBind(ref Invoke, (bool a, bool b) => a && b);
                 OperatorFactory.TryBind<T1, T2, R, string, int, string>(ref Invoke, Do_string_int);
 
-                if (Invoke != null)
-                {
-                    return;
-                }
-
-                Invoke = MultiplyTable.Factory.CreateDelegate<T1, T2, R>();
+                Invoke = Invoke ?? MultiplyTable.Factory.CreateDelegate<T1, T2, R>();
             }
             finally
             {

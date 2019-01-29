@@ -40,12 +40,7 @@ namespace Generic4Operator.Operator
                 OperatorFactory.TryBind(ref Invoke, (string a, string b) => a + b);
                 OperatorFactory.TryBind(ref Invoke, (bool a, bool b) => a || b);
 
-                if (Invoke != null)
-                {
-                    return;
-                }
-
-                Invoke = AdditionTable.Factory.CreateDelegate<T1, T2, R>();
+                Invoke = Invoke ?? AdditionTable.Factory.CreateDelegate<T1, T2, R>();
             }
             finally
             {

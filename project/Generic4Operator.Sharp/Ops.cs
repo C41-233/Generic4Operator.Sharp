@@ -32,8 +32,14 @@ namespace Generic4Operator
         public static R Divide<T1, T2, R>(T1 left, T2 right)
             => Division<T1, T2, R>.Invoke(left, right);
 
+        public static bool CanDivide<T1, T2, R>()
+            => Division<T1, T2, R>.Supported;
+
         public static T Divide<T>(T left, T right)
             => Division<T, T, T>.Invoke(left, right);
+
+        public static bool CanDivide<T>()
+            => Division<T, T, T>.Supported;
 
         public static R Index<T, I, R>(T value, I index)
             => IndexGet<T, I, R>.Invoke(value, index);
@@ -62,8 +68,14 @@ namespace Generic4Operator
         public static T Decrease<T>(T value)
             => Decrement<T, T>.Invoke(value);
 
+        public static bool CanDecrease<T>()
+            => Decrement<T, T>.Supported;
+
         public static R Decrease<T, R>(T value)
             => Decrement<T, R>.Invoke(value);
+
+        public static bool CanDecrease<T, R>()
+            => Decrement<T, R>.Supported;
 
         public static T DecreaseAndGet<T>(ref T value)
             => PrefixDecrement<T>.Invoke(ref value);

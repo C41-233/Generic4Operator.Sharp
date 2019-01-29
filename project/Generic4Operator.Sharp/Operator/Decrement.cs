@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq.Expressions;
 using Generic4Operator.Factory;
 
 namespace Generic4Operator.Operator
@@ -8,27 +7,31 @@ namespace Generic4Operator.Operator
     {
 
         internal static readonly Func<T, R> Invoke;
+        internal static readonly bool Supported;
 
         static Decrement()
         {
-            OperatorFactory.TryBind(ref Invoke, (bool val) => false);
-
-            if (Invoke != null)
-            {
-                return;
-            }
-
             try
             {
-                var parameter = Expression.Parameter(typeof(T));
-                Invoke = Expression.Lambda<Func<T, R>>(
-                    Expression.PreDecrementAssign(parameter),
-                    parameter
-                ).Compile();
+                OperatorFactory.TryBind(ref Invoke, (byte val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (sbyte val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (short val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (ushort val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (int val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (uint val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (long val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (ulong val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (float val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (double val) => --val);
+                OperatorFactory.TryBind(ref Invoke, (bool val) => false);
+                OperatorFactory.TryBind(ref Invoke, (char val) => --val);
+
+                Invoke = Invoke ?? OperatorFactory.CreateDelegate<Func<T, R>>("op_Decrement");
             }
-            catch (Exception)
+            finally
             {
-                Invoke = Throw.Func<T, R>;
+                Supported = Invoke != null;
+                Invoke = Invoke ?? Throw.Func<T, R>;
             }
         }
     }
