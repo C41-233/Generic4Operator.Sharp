@@ -9,10 +9,20 @@ namespace Generic4Operator.Factory
 {
     internal class BinaryOperatorFactory
     {
+
+        private struct Description
+        {
+            public Type T1;
+            public Type ToT1;
+            public Type T2;
+            public Type ToT2;
+            public Type R;
+        }
+
         private readonly string OperatorName;
         private readonly Func<Expression, Expression, Expression> BinaryExpression;
 
-        private readonly List<Tuple<Type, Type, Type>> Primitives = new List<Tuple<Type, Type, Type>>();
+        private readonly List<Description> Primitives = new List<Description>();
 
         public BinaryOperatorFactory(string operatorName, Func<Expression, Expression, Expression> binaryExpression)
         {
@@ -23,7 +33,26 @@ namespace Generic4Operator.Factory
         // ReSharper disable once UnusedParameter.Local
         public void RegisterPrimitive<T1, T2, R>(Func<T1, T2, R> func)
         {
-            Primitives.Add(Tuple.Create(typeof(T1), typeof(T2), typeof(R)));
+            Primitives.Add(new Description
+            {
+                T1 = typeof(T1),
+                ToT1 = typeof(R),
+                T2 = typeof(T2),
+                ToT2 = typeof(R),
+                R = typeof(R)
+            });
+        }
+
+        public void RegisterPrimitive<T1, ToT1, T2, ToT2, R>()
+        {
+            Primitives.Add(new Description
+            {
+                T1 = typeof(T1),
+                ToT1 = typeof(ToT1),
+                T2 = typeof(T2),
+                ToT2 = typeof(ToT2),
+                R = typeof(R)
+            });
         }
 
         public Func<T1, T2, R> CreateDelegate<T1, T2, R>()
@@ -42,12 +71,12 @@ namespace Generic4Operator.Factory
 
             foreach (var value in Primitives)
             {
-                if (value.Item1 == typeof(T1) && value.Item2 == typeof(T2) && value.Item3 == typeof(R))
+                if (value.T1 == typeof(T1) && value.T2 == typeof(T2) && value.R == typeof(R))
                 {
                     return Expression.Lambda<Func<T1, T2, R>>(
                         BinaryExpression(
-                            Expression.Convert(p1, typeof(R)),
-                            Expression.Convert(p2, typeof(R))
+                            Expression.Convert(Expression.Convert(p1, value.ToT1), value.R),
+                            Expression.Convert(Expression.Convert(p2, value.ToT2), value.R)
                         ),
                         p1, p2
                     ).Compile();
@@ -106,15 +135,34 @@ namespace Generic4Operator.Factory
 
             foreach (var value in Primitives)
             {
-                var c1 = ImplicitCastTable.CreateConvertExpression(p1, value.Item1);
-                var c2 = ImplicitCastTable.CreateConvertExpression(p2, value.Item2);
+                var c1 = ImplicitCastTable.CreateConvertExpression(p1, value.T1);
+                var c2 = ImplicitCastTable.CreateConvertExpression(p2, value.T2);
+                if (c1 != null && c2 != null && value.R == typeof(R))
+                {
+                    return Expression.Lambda<Func<T1, T2, R>>(
+                        Expression.Convert(
+                            BinaryExpression(
+                                Expression.Convert(Expression.Convert(c1, value.ToT1), value.R),
+                                Expression.Convert(Expression.Convert(c2, value.ToT2), value.R)
+                            ),
+                            typeof(R)
+                        ),
+                        p1, p2
+                    ).Compile();
+                }
+            }
+
+            foreach (var value in Primitives)
+            {
+                var c1 = ImplicitCastTable.CreateConvertExpression(p1, value.T1);
+                var c2 = ImplicitCastTable.CreateConvertExpression(p2, value.T2);
                 if (c1 != null && c2 != null)
                 {
                     return Expression.Lambda<Func<T1, T2, R>>(
                         Expression.Convert(
                             BinaryExpression(
-                                Expression.Convert(c1, value.Item3),
-                                Expression.Convert(c2, value.Item3)
+                                Expression.Convert(Expression.Convert(c1, value.ToT1), value.R),
+                                Expression.Convert(Expression.Convert(c2, value.ToT2), value.R)
                             ),
                             typeof(R)
                         ),

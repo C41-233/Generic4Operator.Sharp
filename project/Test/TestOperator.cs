@@ -98,8 +98,14 @@ namespace Test
             Assert.AreEqual(1u / 2u, Ops.Divide(1u, 2u));
             Assert.AreEqual(5 / 2, Ops.Divide(5, 2));
             Assert.AreEqual(5 / (float) 2, Ops.Divide<int, int, float>(5, 2));
+
             Assert.AreEqual(new MyInt(5) / new MyInt(2), Ops.Divide<MyInt, MyInt, double>(new MyInt(5), new MyInt(2)));
+            Assert.AreEqual(5f / 2f, Ops.Divide<MyInt, MyInt, float>(new MyInt(5), new MyInt(2)));
+
+            Assert.AreEqual(new MyLong(5) / (double) new MyLong(2), Ops.Divide<MyLong, MyLong, double>(new MyLong(5), new MyLong(2)));
+
             Assert.AreEqual(new BigInteger(3), Ops.Divide(new BigInteger(12), new BigInteger(4)));
+            Assert.AreEqual((float)(new BigInteger(5) / new BigInteger(2)), Ops.Divide<BigInteger, BigInteger, float>(new BigInteger(5), new BigInteger(2)));
         }
 
         [TestMethod]

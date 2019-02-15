@@ -12,6 +12,11 @@ namespace Generic4Operator.Operator
 
         static DivisionTable()
         {
+            Factory.RegisterPrimitive((int x, int y) => x / y);
+            Factory.RegisterPrimitive<int, float, int, float, float>();
+
+            Factory.RegisterPrimitive((long x, long y) => x / y);
+            Factory.RegisterPrimitive<long, double, long, double, double>();
         }
     }
 
@@ -24,8 +29,6 @@ namespace Generic4Operator.Operator
         {
             try
             {
-                OperatorFactory.TryBind(ref Invoke, (int x, int y) => x / (float)y);
-
                 Invoke = Invoke ?? DivisionTable.Factory.CreateDelegate<T1, T2, R>();
             }
             finally
