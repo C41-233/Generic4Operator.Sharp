@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Generic4Operator.Factory;
 
 namespace Generic4Operator.Operator
@@ -26,7 +27,20 @@ namespace Generic4Operator.Operator
                 OperatorFactory.TryBind(ref Invoke, (bool val) => false);
                 OperatorFactory.TryBind(ref Invoke, (char val) => --val);
 
-                Invoke = Invoke ?? OperatorFactory.CreateDelegate<Func<T, R>>("op_Decrement");
+                if (Invoke != null)
+                {
+                    return;
+                }
+
+                var parameter = Expression.Parameter(typeof(T));
+                try
+                {
+                    Invoke = Expression.Lambda<Func<T, R>>(
+                        Expression.Decrement(parameter),
+                        parameter
+                    ).Compile();
+                }
+                catch { }
             }
             finally
             {

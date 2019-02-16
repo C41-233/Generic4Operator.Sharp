@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Can.cs" />
     <Compile Include="Factory\BinaryOperatorFactory.cs" />
     <Compile Include="Factory\ChangeDelegate.cs" />
     <Compile Include="Factory\OperatorFactory.cs" />

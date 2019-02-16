@@ -194,9 +194,15 @@ namespace Test
         [TestMethod]
         public void TestDecrease()
         {
-            Assert.AreEqual(0u, Ops.Decrease(1u));
-            Assert.AreEqual(-1L, Ops.Decrease(0L));
+            Assert.AreEqual('a'-1, Ops.Decrease('a'));
+            Assert.AreEqual((byte)0, Ops.Decrease((byte)1));
+            Assert.AreEqual((sbyte)0, Ops.Decrease((sbyte)1));
+            Assert.AreEqual((short)0, Ops.Decrease((short)1));
+            Assert.AreEqual((ushort)0, Ops.Decrease((ushort)1));
+            Assert.AreEqual(0, Ops.Decrease(1));
             Assert.AreEqual(uint.MaxValue, Ops.Decrease(0u));
+            Assert.AreEqual(-1L, Ops.Decrease(0L));
+            Assert.AreEqual(ulong.MaxValue, Ops.Decrease(0UL));
 
             Assert.AreEqual(0f, Ops.Decrease(1f));
 
@@ -370,9 +376,9 @@ namespace Test
                 Assert.AreEqual(rst, Ops.ImplicitCast<byte, decimal>(5));
             }
 
-            Assert.IsTrue(Ops.CanImplicitCast<int, long>());
-            Assert.IsFalse(Ops.CanImplicitCast<BigInteger, long>());
-            Assert.IsTrue(Ops.CanImplicitCast<MyLong, Base>());
+            Assert.IsTrue(Can<int, long>.ImplicitCast);
+            Assert.IsFalse(Can<BigInteger, long>.ImplicitCast);
+            Assert.IsTrue(Can<MyLong, Base>.ImplicitCast);
         }
 
     }

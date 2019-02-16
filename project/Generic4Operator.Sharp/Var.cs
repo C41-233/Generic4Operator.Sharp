@@ -36,6 +36,8 @@
 
         public static Var<E> operator ~(Var<E> value) => Ops.Complement(value.Value);
 
+        public Var<T> Cast<T>() => Ops.Cast<E, T>(Value);
+
         public static E Zero => Ops.ZeroValue<E>();
 
     }
